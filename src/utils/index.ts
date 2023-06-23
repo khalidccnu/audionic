@@ -20,3 +20,12 @@ export const getFavourite = () => {
 
   return favourite;
 };
+
+export const getPlaylist = () => {
+  let playlist: { id: string; name: string; songs: [] }[] = [];
+  const getPlaylist: null | string = localStorage.getItem("playlist");
+
+  if (getPlaylist) playlist = JSON.parse(getPlaylist);
+
+  return playlist;
+};

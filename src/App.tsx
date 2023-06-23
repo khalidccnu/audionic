@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./Root.tsx";
 import Search from "./pages/Search.tsx";
 import Favourites from "./pages/Favourites.tsx";
+import Playlists from "./pages/Playlists.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -16,6 +17,10 @@ const App = () => {
         {
           path: "favourites",
           element: <Favourites />,
+        },
+        {
+          path: "playlists",
+          element: <Playlists />,
         },
       ],
     },

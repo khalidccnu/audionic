@@ -86,9 +86,38 @@ input:focus,
 }
 
 /* ===== Favourites ===== */
-.favourites-alert {
+.favourites-alert,
+.playlists-alert {
   max-width: 640px;
   margin: auto;
+}
+
+/* ===== Playlists ===== */
+.playlists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 150px));
+  gap: 1rem;
+}
+
+.playlist {
+  transition-property: background-color;
+  transition-duration: 500ms;
+}
+
+.playlist:hover {
+  background-color: #5f9ea0;
+}
+
+.playlist:hover a {
+  color: #fff !important;
+}
+
+.delete-button {
+  background-color: #5f9ea0;
+}
+
+.playlist:hover .delete-button {
+  display: inline !important;
 }
 
 /* ===== Media Query ===== */
