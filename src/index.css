@@ -85,6 +85,12 @@ input:focus,
   background-color: #5f9ea0;
 }
 
+/* ===== Favourites ===== */
+.favourites-alert {
+  max-width: 640px;
+  margin: auto;
+}
+
 /* ===== Media Query ===== */
 @media (min-width: 640px) {
   /* ===== Search Songs ===== */

@@ -32,8 +32,7 @@ const Search = () => {
               numberOfTopResults: "6",
             },
             headers: {
-              "X-RapidAPI-Key":
-                "8b607cdf84msh77456c866487bb2p1ad813jsn73415d8a0ced",
+              "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
               "X-RapidAPI-Host": "spotify23.p.rapidapi.com",
             },
           })
