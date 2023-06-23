@@ -1,3 +1,58 @@
 body {
     font-family: "Josefin Sans", sans-serif;
 }
+
+.root {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    width: 18rem;
+    z-index: 10;
+    transition-property: left;
+    transition-duration: 500ms;
+}
+
+.sidebar.inactive {
+    left: -24rem
+}
+
+.sidebar .nav-link {
+    transition-property: color, background-color;
+    transition-duration: 500ms;
+}
+
+.sidebar .nav-link.active {
+    background-color: #fff;
+}
+
+.sidebar .nav-link.inactive:hover {
+    background-color: #5f9ea0;
+    color: #fff !important;
+}
+
+.sidebar-content .fa {
+    font-size: 1.2rem;
+}
+
+/* ===== Media Query ===== */
+@media (min-width: 768px) {
+    .root {
+        grid-template-columns: 18rem auto;
+    }
+
+    /* ===== Sidebar ===== */
+    .sidebar {
+        position: static;
+        width: auto;
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    .sidebar-content {
+        position: sticky;
+    }
+}
