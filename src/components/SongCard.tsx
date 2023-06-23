@@ -1,10 +1,26 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import axios from "axios";
+import { addFavourite, getFavourite, removeFavourite } from "../utils";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaClock, FaUser } from "react-icons/fa";
 
 const SongCard = ({ song }: any) => {
+  const [isFavourite, setFavourite] = useState(false);
   const [play, setPlay] = useState("");
   const songTime: any = new Date(song.data.duration.totalMilliseconds);
+
+  const handleAddFavourite: any = (name: string, id: string) => {
+    addFavourite(id);
+    setFavourite(true);
+    toast.success(name + " has been added in Favourites!");
+  };
+
+  const handleRemoveFavourite: any = (name: string, id: string) => {
+    removeFavourite(id);
+    setFavourite(false);
+    toast.success(name + " has been removed from Favourites!");
+  };
 
   useEffect(() => {
     axios
@@ -21,13 +37,41 @@ const SongCard = ({ song }: any) => {
       .then((response) => setPlay(response.data.tracks[0].preview_url));
   }, []);
 
+  useEffect(() => {
+    const favourite: string[] = getFavourite();
+    const exist: undefined | string = favourite.find(
+      (elem) => elem === song.data.id
+    );
+
+    if (exist) setFavourite(true);
+  }, []);
+
   return (
     <div className="card">
-      <img
-        src={song.data.albumOfTrack.coverArt.sources[2].url}
-        className="card-img-top"
-        alt=""
-      />
+      <div className="position-relative">
+        <img
+          src={song.data.albumOfTrack.coverArt.sources[2].url}
+          className="card-img-top"
+          alt=""
+        />
+        <span className="position-absolute top-0 end-0 bg-primary text-white px-2 mt-2 me-2 rounded-circle fs-3">
+          {isFavourite ? (
+            <AiFillHeart
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                handleRemoveFavourite(song.data.albumOfTrack.name, song.data.id)
+              }
+            />
+          ) : (
+            <AiOutlineHeart
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                handleAddFavourite(song.data.albumOfTrack.name, song.data.id)
+              }
+            />
+          )}
+        </span>
+      </div>
       <div className="card-body d-flex flex-column">
         <h5 className="card-title">{song.data.albumOfTrack.name}</h5>
         <div className="d-flex justify-content-between align-items-center mb-3">

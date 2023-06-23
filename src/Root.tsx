@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import { CgMenuLeft } from "react-icons/cg";
 import { FaAngleLeft, FaHeart, FaHome, FaPlay, FaSearch } from "react-icons/fa";
 
@@ -92,6 +93,7 @@ const Root = () => {
         />
         <Outlet />
       </div>
+      <Toaster />
     </div>
   );
 };
