@@ -1,58 +1,126 @@
 body {
-    font-family: "Josefin Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 .root {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+input:focus,
+.btn:focus {
+  box-shadow: none !important;
 }
 
 /* ===== Sidebar ===== */
 .sidebar {
-    width: 18rem;
-    z-index: 10;
-    transition-property: left;
-    transition-duration: 500ms;
+  width: 18rem;
+  z-index: 10;
+  transition-property: left;
+  transition-duration: 500ms;
 }
 
 .sidebar.inactive {
-    left: -24rem
+  left: -24rem;
 }
 
 .sidebar .nav-link {
-    transition-property: color, background-color;
-    transition-duration: 500ms;
+  transition-property: color, background-color;
+  transition-duration: 500ms;
 }
 
 .sidebar .nav-link.active {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 .sidebar .nav-link.inactive:hover {
-    background-color: #5f9ea0;
-    color: #fff !important;
+  background-color: #5f9ea0;
+  color: #fff !important;
 }
 
 .sidebar-content .fa {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
+}
+
+/* ===== Search Form ===== */
+.search-form {
+  max-width: 640px;
+  margin: auto;
+}
+
+.search-form .input-group-text {
+  background-color: #fff;
+  transition-property: color, background-color;
+  transition-duration: 500ms;
+}
+
+.search-form .input-group-text:hover {
+  background-color: #1161d2;
+  color: #fff;
+}
+
+.search-form-submit {
+  color: #111;
+  border-color: transparent;
+}
+
+.search-form-submit:hover {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.animation {
+  max-width: 340px;
+  margin: auto;
+}
+
+/* ===== Search Songs ===== */
+.songs {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.songs .player {
+  background-color: #5f9ea0;
 }
 
 /* ===== Media Query ===== */
+@media (min-width: 640px) {
+  /* ===== Search Songs ===== */
+  .songs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (min-width: 768px) {
-    .root {
-        grid-template-columns: 18rem auto;
-    }
+  .root {
+    grid-template-columns: 22rem auto;
+  }
 
-    /* ===== Sidebar ===== */
-    .sidebar {
-        position: static;
-        width: auto;
-        height: auto;
-        min-height: 100vh;
-        overflow: visible;
-    }
+  /* ===== Sidebar ===== */
+  .sidebar {
+    position: static !important;
+    width: auto;
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow: visible !important;
+  }
 
-    .sidebar-content {
-        position: sticky;
-    }
+  .sidebar-content {
+    position: sticky;
+    top: 3rem;
+  }
+
+  /* ===== Search Songs ===== */
+  .songs {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  /* ===== Search Songs ===== */
+  .songs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
