@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { getPlaylist } from "../utils";
 import Playlist from "../components/Playlist.tsx";
+import toast from "react-hot-toast";
 
 const Playlists = () => {
   const [loading, setLoading] = useState(true);
@@ -23,6 +24,7 @@ const Playlists = () => {
 
     setInput("");
     setRefetch(!isRefetch);
+    toast.success("New playlist has been created!");
   };
 
   const handleRemovePlaylist: any = (id: string) => {
@@ -31,6 +33,7 @@ const Playlists = () => {
     localStorage.setItem("playlist", JSON.stringify(filterPL));
 
     setRefetch(!isRefetch);
+    toast.success("Playlist has been deleted!");
   };
 
   useEffect(() => {

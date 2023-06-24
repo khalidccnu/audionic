@@ -81,19 +81,23 @@ const Favourites = () => {
                       ></button>
                     </div>
                     <div className="modal-body">
-                      <div className="list-group">
-                        {playlists?.map((pl) => {
-                          return (
-                            <span
-                              style={{ cursor: "pointer" }}
-                              className="list-group-item list-group-item-action"
-                              onClick={() => handleAddToPlaylist(pl.id)}
-                            >
-                              {pl.name}
-                            </span>
-                          );
-                        })}
-                      </div>
+                      {playlists?.length ? (
+                        <div className="list-group">
+                          {playlists?.map((pl) => {
+                            return (
+                              <span
+                                style={{ cursor: "pointer" }}
+                                className="list-group-item list-group-item-action"
+                                onClick={() => handleAddToPlaylist(pl.id)}
+                              >
+                                {pl.name}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <h6>You have not any playlist!</h6>
+                      )}
                     </div>
                     <div className="modal-footer">
                       <button

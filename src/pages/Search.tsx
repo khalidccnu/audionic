@@ -14,13 +14,18 @@ const Search = () => {
   const [playlists, setPlaylists] = useState<
     null | { id: string; name: string; songs: string[] }[]
   >(null);
+  const [keywords, setKeywords] = useState<null | { data: { name: string } }[]>(
+    null
+  );
   const [searchKeyword, setSearchKeyword] = useState<null | string>(null);
   const [input, setInput] = useState("");
   const [plSong, setPLSong] = useState("");
+  const [isDropdown, setDropdown] = useState(false);
 
   const handleSubmit: any = (e: any) => {
     e.preventDefault();
     setSearchKeyword(e.target.search.value);
+    setDropdown(false);
   };
 
   const handleAddToPlaylist: any = (pid: string) => {
@@ -34,6 +39,30 @@ const Search = () => {
     const playlist = getPlaylist();
     setPlaylists(playlist);
   }, []);
+
+  useEffect(() => {
+    if (input) {
+      setDropdown(true);
+
+      axios
+        .get(`https://spotify23.p.rapidapi.com/search/`, {
+          params: {
+            q: input,
+            type: "tracks",
+            offset: "0",
+            limit: "3",
+            numberOfTopResults: "3",
+          },
+          headers: {
+            "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
+            "X-RapidAPI-Host": "spotify23.p.rapidapi.com",
+          },
+        })
+        .then((response) => setKeywords(response.data.tracks.items));
+    } else {
+      setDropdown(false);
+    }
+  }, [input]);
 
   useEffect(() => {
     if (searchKeyword) {
@@ -61,27 +90,43 @@ const Search = () => {
     }
   }, [searchKeyword]);
 
+  useEffect(() => {
+    document.addEventListener("click", () => setDropdown(false));
+
+    return () =>
+      document.removeEventListener("click", () => setDropdown(false));
+  }, []);
+
   return (
     <section className="py-5">
       <div className="container">
-        <form onSubmit={handleSubmit} className="search-form input-group">
-          <input
-            type="text"
-            name="search"
-            placeholder="Type your song name..."
-            className="form-control form-control-sm"
-            value={input}
-            onChange={(e: any) => setInput(e.target.value)}
-          />
-          <div className="input-group-text p-0">
-            <button
-              type="submit"
-              className="btn btn-sm btn-outline-primary px-4 mt-2 search-form-submit"
-            >
-              Search
-            </button>
-          </div>
-        </form>
+        <div className="search-form position-relative">
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="search"
+              placeholder="Type your song name..."
+              className="form-control form-control-sm"
+              value={input}
+              onChange={(e: any) => setInput(e.target.value)}
+            />
+          </form>
+          <ul className={`${isDropdown ? "d-block " : ""}dropdown-menu w-100`}>
+            {keywords?.map((keyword) => (
+              <li>
+                <span
+                  className="dropdown-item"
+                  onClick={() => {
+                    setInput(keyword.data.name);
+                    setSearchKeyword(keyword.data.name);
+                  }}
+                >
+                  {keyword.data.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
         {loading ? (
           <div className="text-center mt-5">
             <div className="spinner-border" role="status"></div>
@@ -105,19 +150,23 @@ const Search = () => {
                     ></button>
                   </div>
                   <div className="modal-body">
-                    <div className="list-group">
-                      {playlists?.map((pl) => {
-                        return (
-                          <span
-                            style={{ cursor: "pointer" }}
-                            className="list-group-item list-group-item-action"
-                            onClick={() => handleAddToPlaylist(pl.id)}
-                          >
-                            {pl.name}
-                          </span>
-                        );
-                      })}
-                    </div>
+                    {playlists?.length ? (
+                      <div className="list-group">
+                        {playlists?.map((pl) => {
+                          return (
+                            <span
+                              style={{ cursor: "pointer" }}
+                              className="list-group-item list-group-item-action"
+                              onClick={() => handleAddToPlaylist(pl.id)}
+                            >
+                              {pl.name}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <h6>You have not any playlist!</h6>
+                    )}
                   </div>
                   <div className="modal-footer">
                     <button

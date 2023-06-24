@@ -81,6 +81,16 @@ input:focus,
   gap: 1rem;
 }
 
+.card {
+  transform: scale(1);
+  transition-property: transform;
+  transition-duration: 500ms;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
 .songs .player {
   background-color: #5f9ea0;
 }

@@ -86,11 +86,13 @@ const Root = () => {
         </div>
       </div>
       <div>
-        <CgMenuLeft
-          style={{ cursor: "pointer" }}
-          className="d-md-none fs-3 mb-5"
-          onClick={() => setHbMenu(false)}
-        />
+        <div className="container">
+          <CgMenuLeft
+            style={{ cursor: "pointer" }}
+            className="d-md-none fs-3 mt-3"
+            onClick={() => setHbMenu(false)}
+          />
+        </div>
         <Outlet />
       </div>
       <Toaster />
