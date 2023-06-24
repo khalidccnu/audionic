@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import Lottie from "lottie-react";
 import axios from "axios";
+import { addToPlaylist, getPlaylist } from "../utils";
 import SongCard from "../components/SongCard.tsx";
 import anmViolinMusic from "../assets/violin-music.json";
 
@@ -9,13 +11,29 @@ type Song = {}[];
 const Search = () => {
   const [loading, setLoading] = useState(false);
   const [songs, setSongs] = useState<null | Song>(null);
+  const [playlists, setPlaylists] = useState<
+    null | { id: string; name: string; songs: string[] }[]
+  >(null);
   const [searchKeyword, setSearchKeyword] = useState<null | string>(null);
   const [input, setInput] = useState("");
+  const [plSong, setPLSong] = useState("");
 
   const handleSubmit: any = (e: any) => {
     e.preventDefault();
     setSearchKeyword(e.target.search.value);
   };
+
+  const handleAddToPlaylist: any = (pid: string) => {
+    const exist = addToPlaylist(plSong, pid);
+
+    if (exist) toast.error("Song is already exist in this playlist!");
+    else toast.success("Song has been added in playlist!");
+  };
+
+  useEffect(() => {
+    const playlist = getPlaylist();
+    setPlaylists(playlist);
+  }, []);
 
   useEffect(() => {
     if (searchKeyword) {
@@ -69,11 +87,51 @@ const Search = () => {
             <div className="spinner-border" role="status"></div>
           </div>
         ) : songs?.length ? (
-          <div className="songs mt-5">
-            {songs?.map((song) => (
-              <SongCard song={song} />
-            ))}
-          </div>
+          <>
+            <div className="songs mt-5">
+              {songs?.map((song) => (
+                <SongCard setPLSong={setPLSong} song={song} />
+              ))}
+            </div>
+            <div className="modal fade" id="modalAlt" tabIndex={-1}>
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title">Playlists</h5>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="list-group">
+                      {playlists?.map((pl) => {
+                        return (
+                          <span
+                            style={{ cursor: "pointer" }}
+                            className="list-group-item list-group-item-action"
+                            onClick={() => handleAddToPlaylist(pl.id)}
+                          >
+                            {pl.name}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
         ) : (
           <div className="animation mt-5">
             <Lottie

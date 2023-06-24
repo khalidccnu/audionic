@@ -3,9 +3,9 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { addFavourite, getFavourite, removeFavourite } from "../utils";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { FaClock, FaUser } from "react-icons/fa";
+import { FaClock, FaPlus, FaUser } from "react-icons/fa";
 
-const SongCard = ({ song }: any) => {
+const SongCard = ({ song, setPLSong }: any) => {
   const [isFavourite, setFavourite] = useState(false);
   const [play, setPlay] = useState("");
   const songTime: any = new Date(song.data.duration.totalMilliseconds);
@@ -53,6 +53,14 @@ const SongCard = ({ song }: any) => {
           className="card-img-top"
           alt=""
         />
+        <span className="position-absolute top-0 start-0 bg-primary text-white px-2 mt-2 ms-2 rounded-circle fs-3">
+          <FaPlus
+            style={{ cursor: "pointer" }}
+            data-bs-toggle="modal"
+            data-bs-target="#modalAlt"
+            onClick={() => setPLSong(song.data.id)}
+          />
+        </span>
         <span className="position-absolute top-0 end-0 bg-primary text-white px-2 mt-2 me-2 rounded-circle fs-3">
           {isFavourite ? (
             <AiFillHeart

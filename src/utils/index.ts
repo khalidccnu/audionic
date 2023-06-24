@@ -22,10 +22,22 @@ export const getFavourite = () => {
 };
 
 export const getPlaylist = () => {
-  let playlist: { id: string; name: string; songs: [] }[] = [];
+  let playlist: { id: string; name: string; songs: string[] }[] = [];
   const getPlaylist: null | string = localStorage.getItem("playlist");
 
   if (getPlaylist) playlist = JSON.parse(getPlaylist);
 
   return playlist;
+};
+
+export const addToPlaylist = (id: string, pid: string) => {
+  const playlist = getPlaylist();
+
+  const findIndex = playlist.findIndex((elem) => elem.id == pid);
+  const exist = playlist[findIndex].songs.find((elem) => elem === id);
+
+  if (exist) return true;
+
+  playlist[findIndex].songs.push(id);
+  localStorage.setItem("playlist", JSON.stringify(playlist));
 };

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { AiFillHeart } from "react-icons/ai";
-import { FaClock, FaUser } from "react-icons/fa";
+import { FaClock, FaPlus, FaUser } from "react-icons/fa";
 import { removeFavourite } from "../utils";
 
-const FavouritesSongCard = ({ song, setRefetch }: any) => {
+const FavouritesSongCard = ({ song, setRefetch, setPLSong }: any) => {
   const [play, setPlay] = useState("");
   const songTime: any = new Date(song.duration_ms);
 
@@ -33,6 +33,14 @@ const FavouritesSongCard = ({ song, setRefetch }: any) => {
     <div className="card">
       <div className="position-relative">
         <img src={song.album.images[0].url} className="card-img-top" alt="" />
+        <span className="position-absolute top-0 start-0 bg-primary text-white px-2 mt-2 ms-2 rounded-circle fs-3">
+          <FaPlus
+            style={{ cursor: "pointer" }}
+            data-bs-toggle="modal"
+            data-bs-target="#modalAlt"
+            onClick={() => setPLSong(song.id)}
+          />
+        </span>
         <span className="position-absolute top-0 end-0 bg-primary text-white px-2 mt-2 me-2 rounded-circle fs-3">
           <AiFillHeart
             style={{ cursor: "pointer" }}

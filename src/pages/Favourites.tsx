@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import axios from "axios";
-import { getFavourite } from "../utils";
+import { addToPlaylist, getFavourite, getPlaylist } from "../utils";
 import FavouritesSongCard from "../components/FavouritesSongCard.tsx";
 
 type Song = {}[];
@@ -8,7 +9,23 @@ type Song = {}[];
 const Favourites = () => {
   const [loading, setLoading] = useState(true);
   const [songs, setSongs] = useState<null | Song>(null);
+  const [playlists, setPlaylists] = useState<
+    null | { id: string; name: string; songs: string[] }[]
+  >(null);
+  const [plSong, setPLSong] = useState("");
   const [isRefetch, setRefetch] = useState(false);
+
+  const handleAddToPlaylist: any = (pid: string) => {
+    const exist = addToPlaylist(plSong, pid);
+
+    if (exist) toast.error("Song is already exist in this playlist!");
+    else toast.success("Song has been added in playlist!");
+  };
+
+  useEffect(() => {
+    const playlist = getPlaylist();
+    setPlaylists(playlist);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -42,11 +59,55 @@ const Favourites = () => {
       <div className="container">
         {!loading ? (
           songs?.length ? (
-            <div className="songs">
-              {songs?.map((song) => (
-                <FavouritesSongCard song={song} setRefetch={setRefetch} />
-              ))}
-            </div>
+            <>
+              <div className="songs">
+                {songs?.map((song) => (
+                  <FavouritesSongCard
+                    song={song}
+                    setRefetch={setRefetch}
+                    setPLSong={setPLSong}
+                  />
+                ))}
+              </div>
+              <div className="modal fade" id="modalAlt" tabIndex={-1}>
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title">Playlists</h5>
+                      <button
+                        type="button"
+                        className="btn-close"
+                        data-bs-dismiss="modal"
+                      ></button>
+                    </div>
+                    <div className="modal-body">
+                      <div className="list-group">
+                        {playlists?.map((pl) => {
+                          return (
+                            <span
+                              style={{ cursor: "pointer" }}
+                              className="list-group-item list-group-item-action"
+                              onClick={() => handleAddToPlaylist(pl.id)}
+                            >
+                              {pl.name}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div className="modal-footer">
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
           ) : (
             <div className="favourites-alert alert alert-info" role="alert">
               You have not added any song yet!
