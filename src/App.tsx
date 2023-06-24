@@ -3,6 +3,7 @@ import Root from "./Root.tsx";
 import Search from "./pages/Search.tsx";
 import Favourites from "./pages/Favourites.tsx";
 import Playlists from "./pages/Playlists.tsx";
+import PlaylistSongs from "./pages/PlaylistSongs.tsx";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -21,6 +22,10 @@ const App = () => {
         {
           path: "playlists",
           element: <Playlists />,
+        },
+        {
+          path: "playlists/:id",
+          element: <PlaylistSongs />,
         },
       ],
     },

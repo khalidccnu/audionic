@@ -33,7 +33,7 @@ export const getPlaylist = () => {
 export const addToPlaylist = (id: string, pid: string) => {
   const playlist = getPlaylist();
 
-  const findIndex = playlist.findIndex((elem) => elem.id == pid);
+  const findIndex = playlist.findIndex((elem) => elem.id === pid);
   const exist = playlist[findIndex].songs.find((elem) => elem === id);
 
   if (exist) return true;
