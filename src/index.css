@@ -42,6 +42,32 @@ input:focus,
   font-size: 1.2rem;
 }
 
+/* ===== Home ===== */
+.swiper-button-prev,
+.swiper-button-next {
+  position: fixed;
+  top: 22px;
+  background-color: #5f9ea0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 100%;
+}
+
+.swiper-button-prev {
+  left: auto;
+  right: 52px;
+}
+
+.swiper-button-next {
+  right: 12px;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 1rem;
+  color: #fff;
+}
+
 /* ===== Search Form ===== */
 .search-form {
   max-width: 640px;
@@ -140,7 +166,7 @@ input:focus,
 
 @media (min-width: 768px) {
   .root {
-    grid-template-columns: 22rem auto;
+    grid-template-columns: 22rem calc(100vw - 22rem);
   }
 
   /* ===== Sidebar ===== */
