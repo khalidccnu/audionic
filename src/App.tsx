@@ -1,4 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ReactKeycloakProvider } from "@react-keycloak/web";
+import keycloak from "./utils/keycloak.ts";
+import PrivateRoute from "./routes/PrivateRoute.tsx";
 import Root from "./Root.tsx";
 import Home from "./pages/Home.tsx";
 import Search from "./pages/Search.tsx";
@@ -10,7 +13,11 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Root />,
+      element: (
+        <PrivateRoute>
+          <Root />
+        </PrivateRoute>
+      ),
       children: [
         {
           path: "/",
@@ -36,7 +43,14 @@ const App = () => {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <ReactKeycloakProvider
+      initOptions={{ onLoad: "login-required" }}
+      authClient={keycloak}
+    >
+      <RouterProvider router={router} />
+    </ReactKeycloakProvider>
+  );
 };
 
 export default App;

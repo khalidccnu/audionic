@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { CgMenuLeft } from "react-icons/cg";
-import { FaAngleLeft, FaHeart, FaHome, FaPlay, FaSearch } from "react-icons/fa";
+import {
+  FaAngleLeft,
+  FaHeart,
+  FaHome,
+  FaPlay,
+  FaSearch,
+  FaSignOutAlt,
+} from "react-icons/fa";
+import keycloak from "./utils/keycloak.ts";
 
 const Root = () => {
   const [hbMenu, setHbMenu] = useState(true);
@@ -82,6 +90,18 @@ const Root = () => {
                 <span>Playlists</span>
               </NavLink>
             </li>
+            {keycloak.authenticated ? (
+              <li>
+                <span
+                  style={{ cursor: "pointer" }}
+                  className="nav-link d-flex gap-1 px-3 pt-2 pb-1 rounded text-dark fw-bold inactive"
+                  onClick={() => keycloak.logout()}
+                >
+                  <FaSignOutAlt />
+                  <span>Logout</span>
+                </span>
+              </li>
+            ) : null}
           </ul>
         </div>
       </div>

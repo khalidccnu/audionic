@@ -9,8 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-keycloak/web": "^3.4.0",
     "axios": "^1.4.0",
     "bootstrap": "^5.0.2",
+    "keycloak-js": "^21.1.1",
     "lottie-react": "^2.4.0",
     "prettier": "^2.8.8",
     "react": "^18.2.0",
